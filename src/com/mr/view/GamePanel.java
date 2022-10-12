@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements KeyListener {
 				g2.drawImage(o.image, o.x, o.y, this);
 				if(o.getBounds().intersects(golden.getFootBounds()) ||
 						o.getBounds().intersects(golden.getHeadBounds())) {
-//					gameOver();
+					gameOver();
 				}else {
 					list.remove(i);
 					i--;
@@ -66,6 +66,22 @@ public class GamePanel extends JPanel implements KeyListener {
 		}
 		
 	}
+	
+	//g2只是主图片的绘图对象，而JPanel需要用Graphics对象，否则画不到JPanel上
+	public void paint(Graphics g) {
+		paintImage();
+		g.drawImage(image, 0, 0, this);
+	}
+	
+	public void gameOver() {
+		ScoreRecorder.addNewScore(score);
+		finish = true;
+	}
+	
+	public boolean isFinish() {
+		return finish;
+	}
+	
 
 	@Override
 	public void keyTyped(KeyEvent e) {
